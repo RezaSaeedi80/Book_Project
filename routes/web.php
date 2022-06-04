@@ -14,5 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/book/trash', [BookController::class, 'trashedShow'])->name('book.showTrash');
+Route::put('/book/{book}/restore', [BookController::class, 'restore'])->name('book.restore')->withTrashed();
+Route::delete('/book/{book}/force', [BookController::class, 'forceDelete'])->name('book.force')->withTrashed();
 
 Route::resource('/book', BookController::class);

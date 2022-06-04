@@ -28,7 +28,7 @@ class ViewServiceProvider extends ServiceProvider
             $view->with('items', [
                 '/book' => 'Home',
                 '/book/create' => 'Create',
-                '' => 'Contact'
+                '/book/trash' => 'Trash'
             ]);
         });
         View::composer('footer', function ($view) {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class BookController extends Controller
 {
@@ -14,8 +15,46 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Book::paginate(1);
+        $books = Book::paginate(2);
         return view('main', compact('books'));
+    }
+
+    /**
+     * Display Trashed item
+     * 
+     * @return \Illuminate\Http\Response
+     */
+
+    public function trashedShow()
+    {
+        $books = Book::onlyTrashed()->paginate(2);
+        return view('trashed', compact('books'));
+    }
+
+    /**
+     * Trash a Book
+     * 
+     * @param \app\Models\Book $book
+     * @return \Illuminate\Http\Response
+     */
+
+    public function forceDelete(Book $book)
+    {
+        $book->forceDelete();
+        return redirect()->route('book.showTrash');
+    }
+
+    /**
+     * Restore a Book
+     * 
+     * @param \app\Models\Book $book
+     * @return \Illuminate\Http\Response
+     */
+
+    public function restore(Book $book)
+    {
+        $book->restore();
+        return redirect()->route('book.index');
     }
 
     /**
@@ -83,6 +122,7 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+        $book->delete();
+        return redirect('/book');
     }
 }
